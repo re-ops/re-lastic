@@ -1,8 +1,8 @@
 # Intro
 
-Re-base is a collection of recipes that use Re-conf for provisioning desktop and server instances
+Re-lastic is a collection of recipes that use Re-conf for setting up the ELK stack
 
-[![Build Status](https://travis-ci.org/re-ops/re-base.png)](https://travis-ci.org/re-ops/re-base)
+[![Build Status](https://travis-ci.org/re-ops/re-lastic.png)](https://travis-ci.org/re-ops/re-lastic)
 
 # Development
 
@@ -19,7 +19,7 @@ $ lein repl
 Using a second window:
 
 ```bash
-$ node target/js/compiled/shim.js
+$ node target/js/compiled/main.js
 ```
 
 In the VIM session:
