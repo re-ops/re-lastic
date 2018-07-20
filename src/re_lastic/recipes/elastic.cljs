@@ -3,20 +3,13 @@
   (:require-macros
    [clojure.core.strint :refer (<<)])
   (:require
-   [re-conf.resources.pkg :refer (package key-file update repository)]
+   [re-conf.resources.pkg :refer (package)]
    [re-conf.resources.output :refer (summary)]
-   [re-conf.resources.download :refer (download)]))
+   ))
 
 (defn elastic
-  "Setting up Elasticsearch repo and package"
+  "Setting up Elasticsearch"
   []
-  (let [file "/tmp/GPG-KEY-elasticsearch"
-        repo "deb https://artifacts.elastic.co/packages/6.x/apt stable main"]
-    (->
-      (package "apt-transport-https")
-      (download "https://artifacts.elastic.co/GPG-KEY-elasticsearch" file)
-      (key-file file)
-      (repository repo :present)
-      (update)
-      (summary "elastic setup done")
-      )))
+   (->
+     (package "elasticsearch" :present)
+     (summary "elastic setup done")))

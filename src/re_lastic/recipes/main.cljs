@@ -3,6 +3,7 @@
    [clojure.core.strint :refer (<<)])
   (:require
    [re-lastic.recipes.elastic]
+   [re-lastic.recipes.prequisits]
    [cljs.core.async :as async :refer [take!]]
    [cljs-node-io.core :as io]
    [re-conf.core :refer (invoke invoke-all report-n-exit assert-node-major-version)]
@@ -29,7 +30,8 @@
     (take! (initialize)
            (fn [r]
              (info "Provisioning machine using re-elastic!" ::main)
-             (run-profile env profile)))))
+             (take! (invoke-all env re-lastic.recipes.prequisits) 
+                    (run-profile env profile))))))
 
 (set! *main-cli-fn* -main)
 
