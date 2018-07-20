@@ -11,10 +11,9 @@
   (let [file "/tmp/GPG-KEY-elasticsearch"
         repo "deb https://artifacts.elastic.co/packages/6.x/apt stable main"]
     (->
-      (package "apt-transport-https")
-      (download "https://artifacts.elastic.co/GPG-KEY-elasticsearch" file)
-      (key-file file)
-      (repository repo :present)
-      (update)
-      (summary "elastic repository done")
-      )))
+     (package "apt-transport-https")
+     (download "https://artifacts.elastic.co/GPG-KEY-elasticsearch" file)
+     (key-file file)
+     (repository repo :present)
+     (update)
+     (summary "elastic repository done"))))

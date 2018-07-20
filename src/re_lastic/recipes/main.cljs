@@ -10,19 +10,16 @@
    [re-conf.resources.pkg :refer (initialize)]
    [re-conf.resources.log :refer (info debug error)]))
 
-
 (defn elk
   "Setting up only an elasticserver instance"
   [env]
   (report-n-exit
    (invoke-all env re-lastic.recipes.elastic)))
 
-
 (defn run-profile [env profile]
   (fn [_]
     (case (keyword profile)
-      :elk (elk env)
-      )))
+      :elk (elk env))))
 
 (defn -main [e profile & args]
   (assert-node-major-version)
@@ -30,7 +27,7 @@
     (take! (initialize)
            (fn [r]
              (info "Provisioning machine using re-elastic!" ::main)
-             (take! (invoke-all env re-lastic.recipes.prequisits) 
+             (take! (invoke-all env re-lastic.recipes.prequisits)
                     (run-profile env profile))))))
 
 (set! *main-cli-fn* -main)
