@@ -7,5 +7,9 @@
    [re-conf.resources.download :refer (download)]))
 
 (defn kibana
-  "Setting up Elasticsearch repo and package"
-  [])
+  "Setting up Kibana"
+  []
+  (->
+   (package "kibana-oss" :present)
+   (service "kibana" :start)
+   (summary "kibana setup done")))
