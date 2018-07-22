@@ -11,6 +11,7 @@
   "Setting up Elasticsearch"
   []
   (->
+   (package "openjdk-8-jre")
    (package "elasticsearch" :present)
    (service "elasticsearch" :start)
    (summary "elastic setup done")))
