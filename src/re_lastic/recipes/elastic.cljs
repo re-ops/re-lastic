@@ -10,7 +10,7 @@
 
 (defn elastic
   "Setting up Elasticsearch"
-  [{:keys [cluster node data]}]
+  [{:keys [cluster node data] :or {data "/var/lib/elasticsearch"}}]
   (->
    (package "openjdk-8-jre")
    (package "elasticsearch" :present)
