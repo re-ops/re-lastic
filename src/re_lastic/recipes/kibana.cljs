@@ -5,8 +5,7 @@
   (:require
    [re-conf.resources.output :refer (summary)]
    [re-conf.resources.service :refer (service)]
-   [re-conf.resources.pkg :refer (package)]
-   [re-conf.resources.download :refer (download)]))
+   [re-conf.resources.pkg :refer (package)]))
 
 (defn kibana
   "Setting up Kibana"
