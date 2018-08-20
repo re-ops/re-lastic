@@ -3,6 +3,7 @@
   (:require-macros
    [clojure.core.strint :refer (<<)])
   (:require
+   [re-conf.resources.file :refer (line)]
    [re-conf.resources.output :refer (summary)]
    [re-conf.resources.service :refer (service)]
    [re-conf.resources.pkg :refer (package)]))
@@ -12,5 +13,6 @@
   []
   (->
    (package "kibana-oss" :present)
-   (service "kibana" :start)
-   (summary "kibana setup done")))
+   (line "/etc/kibana/kibana.yml" "server.host: \"0.0.0.0\"")
+   (service "kibana" :restart)
+   (summary "kibana package")))
