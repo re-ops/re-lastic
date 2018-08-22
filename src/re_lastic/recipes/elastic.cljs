@@ -12,7 +12,8 @@
   "Setting up Elasticsearch"
   [{:keys [cluster node data] :or {data "/var/lib/elasticsearch"}}]
   (->
-   (package "openjdk-8-jre" "elasticsearch")
+   (package "openjdk-8-jre")
+   (package "elasticsearch")
    (line "/etc/elasticsearch/elasticsearch.yml" "network.host: 0.0.0.0\n" :present)
    (line "/etc/elasticsearch/elasticsearch.yml" (<< "cluster.name: ~{cluster}\n") :present)
    (line "/etc/elasticsearch/elasticsearch.yml" (<< "node.name: ~{node}") :present)

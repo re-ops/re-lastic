@@ -3,6 +3,7 @@
    [clojure.core.strint :refer (<<)])
   (:require
    [re-lastic.recipes.kibana]
+   [re-lastic.recipes.logstash]
    [re-lastic.recipes.grafana]
    [re-lastic.recipes.elastic]
    [re-lastic.recipes.prequisits]
@@ -16,7 +17,11 @@
   "Setting up only an elasticserver instance"
   [env]
   (report-n-exit
-   (invoke-all env re-lastic.recipes.elastic  re-lastic.recipes.kibana re-lastic.recipes.grafana)))
+   (invoke-all env
+               re-lastic.recipes.elastic
+               re-lastic.recipes.logstash
+               re-lastic.recipes.kibana
+               re-lastic.recipes.grafana)))
 
 (defn run-profile [env profile]
   (fn [_]

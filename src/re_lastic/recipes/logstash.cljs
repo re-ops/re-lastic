@@ -13,6 +13,7 @@
   "Setting up Logstash"
   []
   (->
+   (package "openjdk-8-jre")
    (package "logstash" :present)
    (service "logstash" :start)
    (summary "logstash setup done")))
@@ -21,6 +22,8 @@
   "Setting up pfsense grok support"
   []
   (let [conf-d "/etc/logstash/conf.d/" pfsense "/etc/pfsense-kibana/"]
-    (directory conf-d :absent)
-    (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
-    (symlink conf-d pfsense)))
+    (->
+     (directory conf-d :absent)
+     (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
+     (symlink conf-d pfsense :present)
+     (summary "logstash pfsense"))))
