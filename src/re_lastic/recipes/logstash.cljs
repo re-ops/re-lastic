@@ -23,6 +23,7 @@
   []
   (let [conf-d "/etc/logstash/conf.d/" pfsense "/etc/pfsense-kibana/"]
     (->
+     (package "git")
      (directory conf-d :absent)
      (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
      (symlink conf-d pfsense :present)
