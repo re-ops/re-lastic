@@ -18,9 +18,9 @@
    (summary "logstash setup done")))
 
 (defn pfsense
-   "Setting up pfsense grok support"
-   []
-   (let [conf-d "/etc/logstash/conf.d/" pfsense "/etc/pfsense-kibana/"]
-     (directory conf-d :absent)
-     (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
-     (symlink conf-d pfsense)))
+  "Setting up pfsense grok support"
+  []
+  (let [conf-d "/etc/logstash/conf.d/" pfsense "/etc/pfsense-kibana/"]
+    (directory conf-d :absent)
+    (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
+    (symlink conf-d pfsense)))
