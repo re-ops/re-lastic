@@ -6,6 +6,7 @@
    [re-lastic.recipes.logstash]
    [re-lastic.recipes.grafana]
    [re-lastic.recipes.elastic]
+   [re-lastic.recipes.nginx]
    [re-lastic.recipes.prequisits]
    [cljs.core.async :as async :refer [take!]]
    [cljs-node-io.core :as io]
@@ -21,7 +22,8 @@
                re-lastic.recipes.elastic
                re-lastic.recipes.logstash
                re-lastic.recipes.kibana
-               re-lastic.recipes.grafana)))
+               re-lastic.recipes.grafana
+               re-lastic.recipes.nginx)))
 
 (defn run-profile [env profile]
   (fn [_]
