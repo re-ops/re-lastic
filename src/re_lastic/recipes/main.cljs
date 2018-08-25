@@ -11,7 +11,8 @@
    [cljs.core.async :as async :refer [take!]]
    [cljs-node-io.core :as io]
    [re-conf.core :refer (invoke invoke-all report-n-exit assert-node-major-version)]
-   [re-conf.resources.pkg :refer (initialize)]
+   [re-conf.resources.pkg :as pkg]
+   [re-conf.resources.firewall :as fire]
    [re-conf.resources.log :refer (info debug error)]))
 
 (defn elk
@@ -33,7 +34,7 @@
 (defn -main [e profile & args]
   (assert-node-major-version)
   (let [env (if e (cljs.reader/read-string (io/slurp e)) {})]
-    (take! (initialize)
+    (take! (async/merge [(pkg/initialize) (fire/initialize)])
            (fn [r]
              (info "Provisioning machine using re-elastic!" ::main)
              (take! (invoke-all env re-lastic.recipes.prequisits)

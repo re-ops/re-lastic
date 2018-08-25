@@ -1,5 +1,5 @@
 (defproject re-lastic "0.3.0"
-  :description "Setting up the Elastic stack + Grafana"
+  :description "Setting up ELK using Re-conf "
   :url "https://github.com/re-ops/re-lastic"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
 
@@ -13,7 +13,7 @@
                  ; << macro
                  [org.clojure/core.incubator "0.1.4"]
 
-                 [re-conf "0.2.8"]
+                 [re-conf "0.3.0"]
   ]
 
   :npm {
