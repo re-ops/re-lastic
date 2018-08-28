@@ -4,6 +4,7 @@
    [clojure.core.strint :refer (<<)])
   (:require
    [re-conf.resources.git :refer (clone)]
+   [re-lastic.recipes.pfsense :refer (pfsense-logstash)]
    [re-conf.resources.file :refer (directory symlink)]
    [re-conf.resources.output :refer (summary)]
    [re-conf.resources.service :refer (service)]
@@ -15,16 +16,7 @@
   (->
    (package "openjdk-8-jre")
    (package "logstash" :present)
+   (pfsense-logstash)
    (service "logstash" :start)
    (summary "logstash setup done")))
 
-(defn pfsense
-  "Setting up pfsense grok support"
-  []
-  (let [conf-d "/etc/logstash/conf.d/" pfsense "/etc/pfsense-kibana/"]
-    (->
-     (package "git")
-     (directory conf-d :absent)
-     (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
-     (symlink (<< "~{pfsense}/conf.d") conf-d :present)
-     (summary "logstash pfsense"))))
