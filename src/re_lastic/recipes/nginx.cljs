@@ -3,21 +3,26 @@
   (:require-macros
    [clojure.core.strint :refer (<<)])
   (:require
-   [re-conf.resources.file :refer (template directory)]
+   [re-conf.resources.file :refer (template directory symlink)]
    [re-conf.resources.shell :refer (exec)]
    [re-conf.resources.facts :refer (os)]
    [re-conf.resources.output :refer (summary)]
    [re-conf.resources.service :refer (service)]
+   [re-conf.resources.firewall :refer (rule firewall)]
    [re-conf.resources.pkg :refer (package)]))
 
 (defn reverse-proxy
   "Nginx revese proxy for Elasticsearch"
   [{:keys [domain] :as input}]
-  (let [fqdn {:fqdn (<< "~(os :hostname).~{domain }")}]
+  (let [fqdn {:fqdn (<< "~(os :hostname).~{domain }")}
+        available "/etc/nginx/sites-available/"
+        enabled "/etc/nginx/sites-enabled"]
     (->
      (package "nginx")
-     (template input "resources/nginx/elasticsearch.mustache" "/etc/nginx/sites-available/elastic.conf")
-     (template input "resources/nginx/kibana.mustache" "/etc/nginx/sites-available/kibana.conf")
+     (template input "resources/nginx/elasticsearch.mustache" (<< "~{available}/elastic.conf"))
+     (template input "resources/nginx/kibana.mustache" (<< "~{available}/kibana.conf"))
+     (symlink  (<< "~{available}/elastic.conf") (<< "~{enabled}/elastic.conf") :present)
+     (symlink  (<< "~{available}/kibana.conf") (<< "~{enabled}/kibana.conf") :present)
      (service "nginx" :restart)
      (summary "reverse proxy"))))
 
@@ -34,3 +39,12 @@
      (exec openssl "req" "-nodes" "-newkey" "rsa:2048" "-keyout" (<< "~{dest}/~{fqdn}.key")  "-out" (<< "~{dest}/~{fqdn}.csr") "-subj" subj)
      (exec openssl "dhparam" "-dsaparam" "-out" (<< "~{dest}/dhparam.pem") "4096")
      (summary "ssl"))))
+
+(defn network
+  "network hardening"
+  []
+  (->
+   (rule {:port 22})
+   (rule {:port 443})
+   (firewall :present)
+   (summary "networking")))
