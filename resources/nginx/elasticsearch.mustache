@@ -2,7 +2,7 @@ server {
     listen 9201;
     ssl on;
     server_name {{hostname}}.{{domain}};
-    ssl_certificate /etc/nginx/ssl/{{hostname}}.{{domain}.crt;
+    ssl_certificate /etc/nginx/ssl/{{hostname}}.{{domain}}.crt;
     ssl_certificate_key /etc/nginx/ssl/{{hostname}}.{{domain}}.key;
     ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
     ssl_prefer_server_ciphers on;
