@@ -1,4 +1,4 @@
-(defproject re-lastic "0.3.0"
+(defproject re-lastic "0.3.2"
   :description "Setting up ELK using Re-conf "
   :url "https://github.com/re-ops/re-lastic"
   :license  {:name "Apache License, Version 2.0" :url "http://www.apache.org/licenses/LICENSE-2.0.html"}
@@ -13,7 +13,7 @@
                  ; << macro
                  [org.clojure/core.incubator "0.1.4"]
 
-                 [re-conf "0.3.1"]
+                 [re-conf "0.3.2"]
   ]
 
   :npm {
@@ -31,6 +31,7 @@
 
   :plugins [[lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
             [lein-figwheel "0.5.14"]
+            [lein-shell "0.5.0"]
             [lein-cljfmt "0.5.7"]
             [lein-tag "0.1.0"]
             [lein-npm "0.6.2"]]
@@ -78,6 +79,10 @@
 
     :aliases {
        "travis" [
-         "do" "clean," "cljfmt" "check," "npm" "install," "cljsbuild" "once" "prod," "cljsbuild" "test" ]
+         "do" "clean," "cljfmt" "check," "npm" "install," "cljsbuild" "once" "prod," "cljsbuild" "test" 
+       ]
+       "package" [
+         "shell" "tar" "-czf" "re-lastic.tar.gz" "--exclude" "prod.edn" "target/js/compiled/prod" "node_modules" "resources" "main.js"
+       ]
     }
 )
