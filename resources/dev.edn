@@ -1,5 +1,6 @@
 {
   :cluster "re-lastic"
   :node "one"
+  :domain "local"
 
 }
