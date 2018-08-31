@@ -41,11 +41,12 @@
      (exec openssl "dhparam" "-dsaparam" "-out" (<< "~{dest}/dhparam.pem") "4096")
      (summary "nginx ssl"))))
 
-(defn network
+(defn firewalling
   "network hardening"
   []
   (->
    (rule {:port 22})
-   (rule {:port 443})
+   (rule {:port 9201})
+   (rule {:port 5602})
    (firewall :present)
-   (summary "networking")))
+   (summary "nginx firewalling")))
