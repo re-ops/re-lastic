@@ -10,7 +10,7 @@ server {
 
     ssl_dhparam /etc/nginx/ssl/dhparam.pem;
 
-    set $upstream_endpoint http://localhost:9200;
+    set $upstream_endpoint 127.0.0.1:9200;
 
     # generate pass hash: htpasswd -c /etc/nginx/htpasswd.elasticsearch username1
     auth_basic "Protected";
