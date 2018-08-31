@@ -36,9 +36,10 @@
     (->
      (package "apache2-utils" "openssl")
      (directory dest :present)
-     (exec openssl "req" "-nodes" "-newkey" "rsa:2048" "-keyout" (<< "~{dest}/~{fqdn}.key")  "-out" (<< "~{dest}/~{fqdn}.csr") "-subj" subj)
+     (exec openssl "req" "-x509" "-nodes" "-days" "365" "-newkey" "rsa:2048" "-keyout" (<< "~{dest}/~{fqdn}.key")  "-out" (<< "~{dest}/~{fqdn}.crt") "-subj" subj)
+
      (exec openssl "dhparam" "-dsaparam" "-out" (<< "~{dest}/dhparam.pem") "4096")
-     (summary "ssl"))))
+     (summary "nginx ssl"))))
 
 (defn network
   "network hardening"
