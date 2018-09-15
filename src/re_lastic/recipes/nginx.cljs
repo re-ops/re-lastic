@@ -48,5 +48,6 @@
    (rule {:port 22})
    (rule {:port 9201})
    (rule {:port 5602})
+   (rule {:port 3001})
    (firewall :present)
    (summary "nginx firewalling")))
