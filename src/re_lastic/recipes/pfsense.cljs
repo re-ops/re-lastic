@@ -26,6 +26,5 @@
      (directory conf-d :absent)
      (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
      (symlink (<< "~{pfsense}/conf.d") (<< "~{logstash}/conf.d") :present)
-     (symlink (<< "~{pfsense}/patterns") (<< "~{logstash}/patterns") :present)
-     )))
+     (symlink (<< "~{pfsense}/patterns") (<< "~{logstash}/patterns") :present))))
 
