@@ -19,11 +19,11 @@
 (defn pfsense-logstash
   "Setting up Pfsense support"
   [c]
-  (let [logstash "/etc/logstash/" pfsense "/etc/pfsense-kibana"]
+  (let [logstash "/etc/logstash" pfsense "/etc/pfsense-kibana"]
     (->
      (pfsense-rules c)
      (package "git")
-     (directory conf-d :absent)
+     (directory (<< "~{logstash}/conf.d") :absent)
      (clone "git://github.com/narkisr/pfsense-kibana.git" pfsense)
      (symlink (<< "~{pfsense}/conf.d") (<< "~{logstash}/conf.d") :present)
      (symlink (<< "~{pfsense}/patterns") (<< "~{logstash}/patterns") :present))))
