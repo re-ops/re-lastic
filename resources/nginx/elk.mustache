@@ -1,5 +1,5 @@
 server {
-    listen 9201;
+    listen {{outbound}};
     ssl on;
     server_name {{hostname}}.{{domain}};
     ssl_certificate /etc/nginx/ssl/{{hostname}}.{{domain}}.crt;
@@ -10,20 +10,13 @@ server {
 
     ssl_dhparam /etc/nginx/ssl/dhparam.pem;
 
-    set $upstream_endpoint 127.0.0.1:9200;
+    set $upstream_endpoint 127.0.0.1:{{upstream}};
 
-    # generate pass hash: htpasswd -c /etc/nginx/htpasswd.elasticsearch username1
+    {{#basic-auth}}
+    # generate pass hash: htpasswd -c /etc/nginx/htpasswd.{{product}} username1
     auth_basic "Protected";
-    auth_basic_user_file htpasswd.elasticsearch;
-
-    if ($request_method !~ "GET") {
-        return 403;
-        break;
-    }
-
-    location ~ ^/(_nodes|_cluster|_shutdown) {
-        return 403;
-    }
+    auth_basic_user_file htpasswd.{{product}};
+    {{/basic-auth}}
 
     location ~ {
         proxy_pass http://$upstream_endpoint;

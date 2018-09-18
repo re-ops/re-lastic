@@ -3,4 +3,9 @@
   :node "one"
   :domain "local"
 
+  :nginx {
+   :elasticsearch {:outbound 9201 :upstream 9200 :domain "local" :basic-auth true}
+   :kibana {:outbound 5602 :upstream 5601 :domain "local" :basic-auth true}
+   :grafana {:outbound 3001 :upstream 3000 :domain "local" :basic-auth false}
+  }
 }

@@ -3,6 +3,7 @@
   (:require-macros
    [clojure.core.strint :refer (<<)])
   (:require
+   [re-conf.core :refer (apply*)]
    [re-conf.resources.file :refer (template directory symlink)]
    [re-conf.resources.shell :refer (exec)]
    [re-conf.resources.facts :refer (hostname)]
@@ -13,17 +14,18 @@
 
 (defn reverse-proxy
   "Nginx revese proxy for Elasticsearch"
-  [{:keys [domain] :as env}]
+  [{:keys [domain nginx] :as env}]
   (let [fqdn {:fqdn (<< "~(hostname).~{domain }")}
         available "/etc/nginx/sites-available/"
-        input (assoc env :hostname (hostname))
-        enabled "/etc/nginx/sites-enabled"]
+        enabled "/etc/nginx/sites-enabled"
+        instances ["kibana" "elasticsearch" "grafana"]
+        input (fn [k] (merge (assoc env :hostname (hostname) :product k) (nginx (keyword k))))
+        temp-args (fn [k] ["resources/nginx/elk.mustache" (<< "~{available}/~{k}.conf") (input k)])
+        link-args (fn [k] [(<< "~{available}/~{k}.conf") (<< "~{enabled}/~{k}.conf") :present])]
     (->
      (package "nginx")
-     (template input "resources/nginx/elasticsearch.mustache" (<< "~{available}/elastic.conf"))
-     (template input "resources/nginx/kibana.mustache" (<< "~{available}/kibana.conf"))
-     (symlink  (<< "~{available}/elastic.conf") (<< "~{enabled}/elastic.conf") :present)
-     (symlink  (<< "~{available}/kibana.conf") (<< "~{enabled}/kibana.conf") :present)
+     (apply* template temp-args instances)
+     (apply* symlink link-args instances)
      (summary "reverse proxy"))))
 
 (defn ssl
